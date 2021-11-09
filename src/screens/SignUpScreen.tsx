@@ -10,6 +10,7 @@ import {
 } from 'native-base';
 import {Alert} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {apiSignup} from '../services/firebase';
 
 type Props = NativeStackScreenProps<any>;
 
@@ -21,6 +22,16 @@ export default function SignUpScreen({navigation}: Props) {
       email: form?.email,
       password: form?.password,
     };
+
+    await apiSignup(payload)
+      .then(res => {
+        console.log('Response Signup ==>', res);
+        navigation.navigate('Chat');
+      })
+      .catch(err => {
+        Alert.alert('Alert', err?.message);
+        console.log('Error Signup ==> ', err?.message);
+      });
 
     console.log(payload);
   };
