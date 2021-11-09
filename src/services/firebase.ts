@@ -1,16 +1,25 @@
-import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from 'firebase/auth';
+
+interface ISign {
+  email: string;
+  password: string;
+}
 
 const auth = getAuth();
 
 // Signin
-export const apiSignin = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) => {
+export const apiSignin = async ({email, password}: ISign) => {
   const res = await signInWithEmailAndPassword(auth, email, password);
+  return res;
+};
+
+// Signup
+export const apiSignup = async ({email, password}: ISign) => {
+  const res = await createUserWithEmailAndPassword(auth, email, password);
   return res;
 };
 
