@@ -5,7 +5,17 @@ import {initializeApp} from 'firebase/app';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {};
+const firebaseConfig = {
+  apiKey: 'AIzaSyAiAYJ5EBCvwWsTVSOx8Qyu5Q2D7hIZvns',
+  authDomain: 'learn-socket-fdfaf.firebaseapp.com',
+  databaseURL:
+    'https://learn-socket-fdfaf-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId: 'learn-socket-fdfaf',
+  storageBucket: 'learn-socket-fdfaf.appspot.com',
+  messagingSenderId: '131011713101',
+  appId: '1:131011713101:web:ebe10ad3f562cdb8242404',
+  measurementId: 'G-K8K7M2TL9F',
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
