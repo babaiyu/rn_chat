@@ -15,25 +15,18 @@ import {apiSignup} from '../services/firebase';
 type Props = NativeStackScreenProps<any>;
 
 export default function SignUpScreen({navigation}: Props) {
-  const [form, setForm] = useState({email: '', password: ''});
+  const [form, setForm] = useState({email: '', password: '', name: ''});
 
   const _onSignUp = async () => {
     const payload = {
       email: form?.email,
       password: form?.password,
+      name: form?.name,
     };
 
     await apiSignup(payload)
-      .then(res => {
-        console.log('Response Signup ==>', res);
-        navigation.navigate('Chat');
-      })
-      .catch(err => {
-        Alert.alert('Alert', err?.message);
-        console.log('Error Signup ==> ', err?.message);
-      });
-
-    console.log(payload);
+      .then(res => navigation.navigate('Chat'))
+      .catch(err => Alert.alert('Alert', err?.message));
   };
 
   return (
@@ -66,6 +59,18 @@ export default function SignUpScreen({navigation}: Props) {
               autoCapitalize="none"
               w={{base: '75%', md: '25%'}}
               onChangeText={txt => setForm({...form, password: txt})}
+            />
+          </FormControl>
+
+          {/* Name */}
+          <FormControl>
+            <FormControl.Label>Nama</FormControl.Label>
+            <Input
+              placeholder="Masukkan Nama"
+              autoCapitalize="sentences"
+              isFullWidth
+              w={{base: '75%', md: '25%'}}
+              onChangeText={txt => setForm({...form, name: txt})}
             />
           </FormControl>
 
