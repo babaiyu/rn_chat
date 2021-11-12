@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   Center,
   Container,
@@ -27,14 +27,8 @@ export default function SignInScreen({navigation}: Props) {
     };
 
     await apiSignin(payload)
-      .then(res => {
-        console.log('Response True ==>', res);
-        navigation.navigate('Chat');
-      })
-      .catch(err => {
-        Alert.alert('Alert', err?.message);
-        console.log('Response Fail ==>', err);
-      });
+      .then(res => navigation.navigate('Chat'))
+      .catch(err => Alert.alert('Alert', err?.message));
   };
 
   return (
