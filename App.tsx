@@ -7,6 +7,7 @@ import firebaseConfig from './firebaseConfig';
 // Screens
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
+import UsersScreen from './src/screens/UsersScreen';
 import ChatScreen from './src/screens/ChatScreen';
 
 const Stack = createNativeStackNavigator();
@@ -20,6 +21,7 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen name="SignIn" component={SignInScreen} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
+          <Stack.Screen name="Users" component={UsersScreen} />
           <Stack.Screen name="Chat" component={ChatScreen} />
         </Stack.Navigator>
       </NavigationContainer>

@@ -25,7 +25,7 @@ export default function SignUpScreen({navigation}: Props) {
     };
 
     await apiSignup(payload)
-      .then(res => navigation.navigate('Chat'))
+      .then(res => navigation.navigate('SignIn'))
       .catch(err => Alert.alert('Alert', err?.message));
   };
 

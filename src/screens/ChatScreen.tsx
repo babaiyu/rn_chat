@@ -1,46 +1,86 @@
-import React, {useCallback, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Alert} from 'react-native';
-import {GiftedChat} from 'react-native-gifted-chat';
-import {apiGetChat, apiSendChat, apiUser} from '../services/firebase';
+import {Chat, MessageType} from '@flyerhq/react-native-chat-ui';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {
+  apiGetChat,
+  apiGetUsers,
+  apiSendChat,
+  apiUser,
+} from '../services/firebase';
+import {onValue} from '@firebase/database';
 
-export default function ChatScreen() {
+type Props = NativeStackScreenProps<any>;
+
+export default function ChatScreen({route, navigation}: Props) {
   const [messages, setMessages] = useState<any[]>([]);
-  const userId = apiUser()?.uid;
-  const userName = apiUser()?.displayName;
+  const [friend, setFriend] = useState<any>();
+  const userId = apiUser()?.uid || '';
+  const user = {id: userId};
+
+  // Add chat to UI
+  const addChat = (message: MessageType.Any) => {
+    setMessages([message, ...messages]);
+  };
 
   // Send Chat
-  const onSend = useCallback(async (messages = []) => {
-    await apiSendChat(messages, userId)
-      .then(res =>
-        setMessages(previousMessages =>
-          GiftedChat.append(previousMessages, messages),
-        ),
-      )
+  const onSend = async (message: MessageType.PartialText) => {
+    const textMessage: MessageType.Text = {
+      author: user,
+      createdAt: Date.now(),
+      id: String(+new Date()),
+      text: message.text,
+      type: 'text',
+    };
+
+    await apiSendChat(textMessage, userId, friend?.id)
+      .then(res => {
+        addChat(textMessage);
+      })
       .catch(err => Alert.alert('Alert', err?.message));
-  }, []);
+  };
 
   // Get Chat
   const onGetChat = async () => {
-    await apiGetChat(userId).then(snapshot => {
+    const resChat = await apiGetChat(userId, route.params?.user?.id);
+    onValue(resChat, snapshot => {
+      const data = snapshot.val();
+
       if (snapshot.exists()) {
-        const dataMessages = snapshot.val();
-        setMessages(dataMessages);
+        const objToArr = Object.keys(data)
+          .map(key => data[key])
+          .reverse();
+        setMessages(objToArr);
       }
     });
+    // await apiGetChat(userId, route.params?.user?.id).then(snapshot => {
+    //   const data = snapshot.val();
+
+    //   if (snapshot.exists()) {
+    //     const objToArr = Object.keys(data)
+    //       .map(key => data[key])
+    //       .reverse();
+    //     setMessages(objToArr);
+    //   }
+    // });
   };
 
   useEffect(() => {
     onGetChat();
+
+    setFriend(route.params?.user);
+    navigation.setOptions({
+      title: `Chat to => ${route.params?.user?.name}`,
+    });
   }, []);
 
-  return userId && userName ? (
-    <GiftedChat
-      messages={messages || []}
-      onSend={messages => onSend(messages)}
+  return (
+    <Chat
+      messages={messages}
+      onSendPress={onSend}
       user={{
-        _id: userId,
-        name: userName,
+        id: userId,
       }}
     />
-  ) : null;
+  );
 }

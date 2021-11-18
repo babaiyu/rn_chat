@@ -27,8 +27,12 @@ export default function SignInScreen({navigation}: Props) {
     };
 
     await apiSignin(payload)
-      .then(res => navigation.navigate('Chat'))
+      .then(res => navigation.navigate('Users'))
       .catch(err => Alert.alert('Alert', err?.message));
+  };
+
+  const _onSignUp = () => {
+    navigation.navigate('SignUp');
   };
 
   return (
@@ -67,7 +71,9 @@ export default function SignInScreen({navigation}: Props) {
           <FormControl>
             <Button.Group>
               <Button onPress={_onSignIn}>Sign In</Button>
-              <Button colorScheme="gray">Sign Up</Button>
+              <Button colorScheme="gray" onPress={_onSignUp}>
+                Sign Up
+              </Button>
             </Button.Group>
           </FormControl>
         </Stack>
