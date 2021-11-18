@@ -4,7 +4,6 @@ import {Chat, MessageType} from '@flyerhq/react-native-chat-ui';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
   apiGetChat,
-  apiGetUsers,
   apiSendChat,
   apiUser,
 } from '../services/firebase';
@@ -47,22 +46,20 @@ export default function ChatScreen({route, navigation}: Props) {
       const data = snapshot.val();
 
       if (snapshot.exists()) {
-        const objToArr = Object.keys(data)
-          .map(key => data[key])
-          .reverse();
-        setMessages(objToArr);
+        const objToArr = Object.keys(data).map(key => {
+          return data[key];
+        });
+
+        const result = objToArr.map(item => {
+          const data = Object.keys(item).map(jItem => {
+            return item[jItem];
+          });
+          return data;
+        });
+
+        setMessages(result[0].reverse());
       }
     });
-    // await apiGetChat(userId, route.params?.user?.id).then(snapshot => {
-    //   const data = snapshot.val();
-
-    //   if (snapshot.exists()) {
-    //     const objToArr = Object.keys(data)
-    //       .map(key => data[key])
-    //       .reverse();
-    //     setMessages(objToArr);
-    //   }
-    // });
   };
 
   useEffect(() => {
@@ -72,6 +69,10 @@ export default function ChatScreen({route, navigation}: Props) {
     navigation.setOptions({
       title: `Chat to => ${route.params?.user?.name}`,
     });
+
+    return () => {
+      setMessages([]);
+    };
   }, []);
 
   return (

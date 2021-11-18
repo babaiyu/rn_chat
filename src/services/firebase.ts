@@ -4,15 +4,7 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
-import {
-  getDatabase,
-  query,
-  ref,
-  get,
-  set,
-  push,
-  onValue,
-} from 'firebase/database';
+import {getDatabase, query, ref, get, set, push} from 'firebase/database';
 
 interface ISign {
   email: string;
@@ -79,7 +71,7 @@ export const apiUser = () => {
 
 // Get Chat
 export const apiGetChat = async (userId: any, friendId: any) => {
-  const returnData = ref(db, 'chats/' + userId + '_' + friendId);
+  const returnData = ref(db, `chats/${userId}/${userId}_${friendId}/`);
   return returnData;
 };
 
@@ -89,10 +81,15 @@ export const apiSendChat = async (
   userId: any,
   friendId?: any,
 ) => {
-  const userRef = ref(db, `chats/${userId}_${friendId}`);
+  const theDate = `${new Date().getDate()}-${new Date().getMonth()}-${new Date().getFullYear()}`;
+
+  const userRef = ref(db, `chats/${userId}/${userId}_${friendId}/${theDate}`);
   const newUserRef = push(userRef);
 
-  const friendRef = ref(db, `chats/${friendId}_${userId}`);
+  const friendRef = ref(
+    db,
+    `chats/${friendId}/${friendId}_${userId}/${theDate}`,
+  );
   const newFriendRef = push(friendRef);
 
   const result = [
