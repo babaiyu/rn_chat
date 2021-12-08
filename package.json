@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@flyerhq/react-native-chat-ui": "1.4.3",
+    "@react-native-firebase/analytics": "13.0.1",
+    "@react-native-firebase/app": "13.0.1",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "firebase": "9.4.1",
