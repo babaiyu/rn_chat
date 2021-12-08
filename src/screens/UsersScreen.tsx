@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Box, Button, Container, HStack, Text, VStack} from 'native-base';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {apiGetUsers} from '../services/firebase';
+import analytics from '../services/analytics';
 
 type Props = NativeStackScreenProps<any>;
 
@@ -22,7 +23,12 @@ export default function UsersScreen({navigation}: Props) {
   };
 
   // get chat by users
-  const _onChatUser = (user: any) => {
+  const _onChatUser = async (user: any) => {
+    await analytics('user_goto_chat', {
+      userId: Date.now(),
+      description: 'User wanna navigate to chat screen',
+    });
+    
     navigation.navigate('Chat', {user});
   };
 

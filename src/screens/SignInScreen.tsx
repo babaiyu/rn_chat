@@ -11,6 +11,7 @@ import {
 import {Alert} from 'react-native';
 import {apiSignin} from '../services/firebase';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import analytics from '../services/analytics';
 
 type Props = NativeStackScreenProps<any>;
 
@@ -21,6 +22,10 @@ export default function SignInScreen({navigation}: Props) {
   });
 
   const _onSignIn = async () => {
+    await analytics('user_signin', {
+      userId: Date.now(),
+      description: 'User Click Login',
+    });
     const payload = {
       email: form?.email,
       password: form?.password,
