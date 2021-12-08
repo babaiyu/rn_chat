@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "131011713101",
+    "firebase_url": "https://learn-socket-fdfaf-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "learn-socket-fdfaf",
+    "storage_bucket": "learn-socket-fdfaf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131011713101:android:c2ffa63eaf2a28dd242404",
+        "android_client_info": {
+          "package_name": "com.myapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "131011713101-fhtc3s4phl7l845ebgb6gvdk2nbd47uf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo4o58Iwbk4AWylGM76rzGOIZ_MfNwbA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "131011713101-fhtc3s4phl7l845ebgb6gvdk2nbd47uf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
